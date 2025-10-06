@@ -14,14 +14,14 @@ HTML_PAGE = """
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Weather Dashboard</title>
+    <title>Weather Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h2 class="text-center mb-4">🌦️ Weather Dashboard</h2>
+            <h2 class="text-center mb-4">🌦️ Weather Page</h2>
             <form method="GET" action="/" class="input-group mb-3">
                 <input type="text" name="city" class="form-control" placeholder="Enter city" required>
                 <button class="btn btn-primary" type="submit">Get Weather</button>
