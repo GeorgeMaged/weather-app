@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 # Get API key from environment variable
-API_KEY = os.getenv("OPENWEATHER_API_KEY", "your_api_key_here")
+API_KEY =  "dd219c486e2d52e5def68f4a4436b50e"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 
 # HTML template with Bootstrap styling
