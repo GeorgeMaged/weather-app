@@ -1,4 +1,4 @@
-# 1️⃣ Create VPC
+# 1 Create VPC
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
@@ -9,7 +9,7 @@ resource "aws_vpc" "main" {
   }
 }
 
-# 2️⃣ Create Internet Gateway
+# 2 Create Internet Gateway
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
@@ -18,7 +18,7 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-# 3️⃣ Public subnets
+# 3 Public subnets
 resource "aws_subnet" "public" {
   count                   = length(var.public_subnet_cidrs)
   vpc_id                  = aws_vpc.main.id
@@ -31,7 +31,7 @@ resource "aws_subnet" "public" {
   }
 }
 
-# 4️⃣ Private subnets
+# 4 Private subnets
 resource "aws_subnet" "private" {
   count             = length(var.private_subnet_cidrs)
   vpc_id            = aws_vpc.main.id
@@ -43,7 +43,7 @@ resource "aws_subnet" "private" {
   }
 }
 
-# 5️⃣ Public Route Table
+# 5 Public Route Table
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
@@ -52,21 +52,21 @@ resource "aws_route_table" "public" {
   }
 }
 
-# 6️⃣ Public Route to Internet
+# 6 Public Route to Internet
 resource "aws_route" "internet_access" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.gw.id
 }
 
-# 7️⃣ Associate public subnets with public route table
+# 7 Associate public subnets with public route table
 resource "aws_route_table_association" "public_assoc" {
   count          = length(aws_subnet.public)
   subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
 }
 
-# 8️⃣ NAT Gateway for private subnets
+# 8 NAT Gateway for private subnets
 resource "aws_eip" "nat" {
 }
 
@@ -79,7 +79,7 @@ resource "aws_nat_gateway" "nat" {
   }
 }
 
-# 9️⃣ Private Route Table
+# 9 Private Route Table
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
 
@@ -88,14 +88,14 @@ resource "aws_route_table" "private" {
   }
 }
 
-# 10️⃣ Private Route to Internet via NAT
+# 10 Private Route to Internet via NAT
 resource "aws_route" "private_nat" {
   route_table_id         = aws_route_table.private.id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.nat.id
 }
 
-# 11️⃣ Associate private subnets with private route table
+# 11 Associate private subnets with private route table
 resource "aws_route_table_association" "private_assoc" {
   count          = length(aws_subnet.private)
   subnet_id      = aws_subnet.private[count.index].id
