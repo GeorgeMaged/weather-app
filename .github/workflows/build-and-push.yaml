@@ -66,12 +66,12 @@ jobs:
 
       - name: Update K8s manifests
         run: |
-          sed -i "s|image: .*|image: $IMAGE_NAME-${IMAGE_TAG}|" kubernetes/deployment.yaml
+          sed -i "s|image: .*|image: $IMAGE_NAME-${IMAGE_TAG}|" k8s/deployment.yaml
 
       - name: Deploy to EKS
         run: |
-          kubectl apply -f kubernetes/deployment.yaml
-          kubectl apply -f kubernetes/service.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
 
       # Fail-safe cleanup step
       - name: Destroy infra on failure
