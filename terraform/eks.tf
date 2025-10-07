@@ -39,23 +39,3 @@ resource "aws_eks_node_group" "eks_node_group" {
     aws_iam_role_policy_attachment.eks_node_group_ecr_policy
   ]
 }
-
-# EKS Cluster authentication
-resource "aws_eks_access_entry" "cluster_access" {
-  cluster_name = aws_eks_cluster.eks_cluster.name
-  principal_arn = data.aws_caller_identity.current.arn
-}
-
-resource "aws_eks_access_policy_association" "cluster_access_policy" {
-  cluster_name  = aws_eks_cluster.eks_cluster.name
-  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-  principal_arn = data.aws_caller_identity.current.arn
-
-  access_scope {
-    type = "cluster"
-  }
-
-  depends_on = [aws_eks_access_entry.cluster_access]
-}
-
-data "aws_caller_identity" "current" {}
